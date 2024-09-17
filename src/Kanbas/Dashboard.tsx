@@ -8,7 +8,7 @@ export default function Dashboard() {
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1234/Home">
-            <img src="/images/reactjs.jpg" width={200} />
+            <img src="/images/reactjs.jpg" alt="react" width={200} />
             <div>
               <h5>
                  CS1234 React JS
@@ -23,7 +23,7 @@ export default function Dashboard() {
         <div className="wd-dashboard-course"> 
           <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1234/Home">
-            <img src="/images/java.jpg" width={200} />
+            <img src="/images/java.jpg" alt="java" width={200} />
             <div>
               <h5>
                  CS1235 Java
@@ -38,7 +38,7 @@ export default function Dashboard() {
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1234/Home">
-            <img src="/images/python.jpg" width={200} />
+            <img src="/images/python.jpg" alt="python" width={200} />
             <div>
               <h5>
                  CS1236 Python
@@ -53,7 +53,7 @@ export default function Dashboard() {
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1234/Home">
-            <img src="/images/mysql.jpg" width={200} />
+            <img src="/images/mysql.jpg" alt="mysql" width={200} />
             <div>
               <h5>
                  CS1237 MySQL
@@ -68,7 +68,7 @@ export default function Dashboard() {
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1234/Home">
-            <img src="/images/php.jpg" width={200} />
+            <img src="/images/php.jpg" alt="php" width={200} />
             <div>
               <h5>
                  CS1238 PHP
@@ -83,7 +83,7 @@ export default function Dashboard() {
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1234/Home">
-            <img src="/images/csharp.jpg" width={200} />
+            <img src="/images/csharp.jpg" alt="csharp" width={200} />
             <div>
               <h5>
                  CS1239 C#
@@ -98,7 +98,7 @@ export default function Dashboard() {
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1234/Home">
-            <img src="/images/dataanalytics.jpg" width={200} />
+            <img src="/images/dataanalytics.jpg" alt="dataanalytics" width={200} />
             <div>
               <h5>
                  CS1240 Data Analytics
@@ -113,7 +113,7 @@ export default function Dashboard() {
         <div className="wd-dashboard-course">
           <Link className="wd-dashboard-course-link"
                 to="/Kanbas/Courses/1234/Home">
-            <img src="/images/algorithms.jpg" width={200} />
+            <img src="/images/algorithms.jpg" alt="algorithms" width={200} />
             <div>
               <h5>
                  CS1241 Algorithms
