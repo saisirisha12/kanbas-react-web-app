@@ -16,7 +16,7 @@ export default function Dashboard() {
                  CS1234 React JS
                  </h5>
               <p className="wd-dashboard-course-title card-text">
-                Full Stack software developer
+                Fall 2024 Sec 01
               </p>
               <button className="btn btn-primary"> Go </button>
             </div>
@@ -33,7 +33,7 @@ export default function Dashboard() {
                  CS1235 Java
                  </h5>
               <p className="wd-dashboard-course-title card-text">
-                Programming in Java
+                Spring 2024 Sec 02
               </p>
               <button className="btn btn-primary"> Go </button>
             </div>
@@ -50,7 +50,7 @@ export default function Dashboard() {
                  CS1236 Python
                  </h5>
               <p className="wd-dashboard-course-title card-text">
-                Programming in Python
+                Fall 2024 Sec 03
               </p>
               <button className="btn btn-primary"> Go </button>
             </div>
@@ -67,7 +67,7 @@ export default function Dashboard() {
                  CS1237 MySQL
                  </h5>
               <p className="wd-dashboard-course-title card-text">
-                Introduction to Databases
+                Spring 2024 Sec 01
               </p>
               <button className="btn btn-primary"> Go </button>
             </div>
@@ -84,7 +84,7 @@ export default function Dashboard() {
                  CS1238 PHP
                  </h5>
               <p className="wd-dashboard-course-title card-text">
-                Web Development
+                Fall 2024 Sec 02
               </p>
               <button className="btn btn-primary"> Go </button>
             </div>
@@ -101,7 +101,7 @@ export default function Dashboard() {
                  CS1239 C#
                  </h5>
               <p className="wd-dashboard-course-title card-text">
-                Programming Foundation in C#
+                Fall 2023 Sec 01
               </p>
               <button className="btn btn-primary"> Go </button>
             </div>
@@ -118,7 +118,7 @@ export default function Dashboard() {
                  CS1240 Data Analytics
                  </h5>
               <p className="wd-dashboard-course-title card-text">
-                Introduction to Data Analytics
+                Spring 2023 Sec 02
               </p>
               <button className="btn btn-primary"> Go </button>
             </div>
@@ -135,7 +135,7 @@ export default function Dashboard() {
                  CS1241 Algorithms
                  </h5>
               <p className="wd-dashboard-course-title card-text">
-                Algorithms and Data Structures
+                Spring 2024 Sec 01
               </p>
               <button className="btn btn-primary"> Go </button>
             </div>
