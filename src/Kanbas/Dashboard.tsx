@@ -10,16 +10,18 @@ export default function Dashboard() {
       <div className="row row-cols-1 row-cols-md-5 g-4">
       {courses.map((course) => (
         <div className="wd-dashboard-course col" style={{ width: "300px" }}>
-        <div className="card rounded-3 overflow-hidden">
+        <div className="card rounded-3 overflow-hidden d-flex flex-column h-100">
         <Link to={`/Kanbas/Courses/${course._id}/Home`}
                       className="wd-dashboard-course-link text-decoration-none text-dark" >
             <img src={course.img}  width="100%" height={160} />
-            <div className="card-body">
+            <div className="card-body d-flex flex-column">
             <h5 className="wd-dashboard-course-title card-title">
                       {course.name} </h5>
                       <p className="wd-dashboard-course-title card-text overflow-y-hidden" style={{ maxHeight: 100 }}>
                       {course.description} </p>
-              <button className="btn btn-primary"> Go </button>
+              <div className="mt-auto">
+                <button className="btn btn-primary"> Go </button>
+              </div>
             </div>
           </Link>
           </div>
