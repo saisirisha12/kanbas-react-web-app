@@ -1,13 +1,41 @@
-import { IoEllipsisVertical } from "react-icons/io5";
-import { BsPlus } from "react-icons/bs";
-export default function AssignmentControlButtons() {
-  return (
-    <div className="float-end">
-        <span style={{
-            borderRadius: '1em', border: '1px solid rgba(0, 0, 0, 0.25)',
-            padding: '0.5rem 1rem'
-          }}>40% of Total</span>
-      <BsPlus className="fs-4 me-2" />
-      <IoEllipsisVertical className="fs-4" />
-    </div>
-);}
+// AssignmentControlButtons.tsx
+import React from "react";
+import { BsPencil, BsTrash } from "react-icons/bs";
+
+interface AssignmentControlButtonsProps {
+  assignmentId: string;
+  deleteAssignment: (id: string) => void;
+  editAssignment: (id: string) => void;
+}
+
+const AssignmentControlButtons: React.FC<AssignmentControlButtonsProps> = ({
+  assignmentId,
+  deleteAssignment,
+  editAssignment,
+}) => (
+  <div className="float-end d-flex align-items-center">
+    <BsPencil
+      className="fs-4 me-3 text-primary"
+      onClick={(e) => {
+        e.stopPropagation(); // Prevents triggering parent events
+        editAssignment(assignmentId);
+      }}
+      style={{ cursor: "pointer" }}
+      title="Edit Assignment"
+    />
+
+    <BsTrash
+      className="fs-4 text-danger"
+      onClick={(e) => {
+        e.stopPropagation(); // Prevents triggering parent events
+        if (window.confirm("Are you sure you want to delete this assignment?")) {
+          deleteAssignment(assignmentId);
+        }
+      }}
+      style={{ cursor: "pointer" }}
+      title="Delete Assignment"
+    />
+  </div>
+);
+
+export default AssignmentControlButtons;

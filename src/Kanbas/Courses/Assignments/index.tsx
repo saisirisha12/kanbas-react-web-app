@@ -1,98 +1,85 @@
-import AssignmentControls from "./AssingmentControls";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router";
+import { BsGripVertical } from "react-icons/bs";
+import { FaBook } from "react-icons/fa";
+import AssignmentControl from "./AssignmentControl";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import LessonControlButtons from "../Modules/LessonControlButtons";
-import { BsGripVertical } from "react-icons/bs";
-import { GiNotebook } from "react-icons/gi";
-import * as db from "../../Database";
-import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { deleteAssignment } from "./reducer";
+import { Assignment } from "./types";
+import { GoTriangleDown } from "react-icons/go";
+
+interface AppState {
+  assignmentsReducer: { assignments: Assignment[] };
+  accountReducer: { currentUser: { role: string } | null };
+}
+
 export default function Assignments() {
-  const { cid } = useParams();
-  const assignments = db.assignments
-    return (
-      <div id="wd-assignments">
-        <AssignmentControls /><br />
-        <ul id="wd-modules" className="list-group rounded-0">
+  const { cid } = useParams<{ cid: string }>();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-        <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
-          <div className="wd-title p-3 ps-2 bg-secondary"> 
-            <BsGripVertical className="me-2 fs-3" /> 
-            Assignments 
-            <AssignmentControlButtons /> 
-          </div>
-          
-          <ul className="wd-assignments-list list-group rounded-0">
-          {assignments
-          .filter((assignment: any) => assignment.course === cid)
-          .map((assignment: any) => (
-            <li className="wd-assignment-list-item list-group-item d-flex align-items-center p-3 ps-1">
-            <BsGripVertical className="me-2 fs-3" /> <GiNotebook className="me-2 fs-3" style={{ marginRight: 10, color: 'green' }} />
-            <div className="flex-grow-1">
-            <Link to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`} className="stretched-link" style={{ color: "black" }}>
-            <strong>{assignment.title}</strong></Link>
-            <div className="small">
-                  <span style={{ color: 'red' }}>{assignment.modules}</span> | <strong>{assignment.availability}</strong> {assignment.not_available_till}
-              </div>
-              <div className="small">
-                  <strong>Due</strong> {assignment.due} | {assignment.points}
-                  <LessonControlButtons />
-              </div>
-            </div>
-            </li>
-            ))}
-            </ul>
-            </li>
-        </ul>
+  const assignments = useSelector((state: AppState) =>
+    state.assignmentsReducer.assignments.filter((assignment) => assignment.course === cid)
+  );
+  const currentUser = useSelector((state: AppState) => state.accountReducer.currentUser);
 
+  const handleDelete = (id: string) => {
+    dispatch(deleteAssignment(id));
+  };
 
-              {/* <a href="#/Kanbas/Courses/1234/Assignments/1" className="stretched-link" style={{ color: 'black' }}>
-                  <strong>A1</strong>
-              </a>
-              <div className="small">
-                  <span style={{ color: 'red' }}>Multiple Modules</span> | <strong>Not available until</strong> May 6 at 12:00am
-              </div>
-              <div className="small">
-                  <strong>Due</strong> May 13 at 11:59pm | 100 pts
-              </div>
-            </div> */}
-            {/* <LessonControlButtons />
-            </li> */}
+  const handleEdit = (id: string) => {
+    navigate(`/Kanbas/Courses/${cid}/Assignments/${id}`);
+  };
 
-            {/* <li className="wd-assignment-list-item list-group-item d-flex align-items-center p-3 ps-1">
-            <BsGripVertical className="me-2 fs-3" /> <GiNotebook className="me-2 fs-3" style={{ marginRight: 10, color: 'green' }} />
-            <div className="flex-grow-1">
-              <a href="#/Kanbas/Courses/1234/Assignments/1" className="stretched-link" style={{ color: 'black' }}>
-                  <strong>A2</strong>
-              </a>
-              <div className="small">
-                  <span style={{ color: 'red' }}>Multiple Modules</span> | <strong>Not available until</strong> May 13 at 12:00am
-              </div>
-              <div className="small">
-                  <strong>Due</strong> May 20 at 11:59pm | 100 pts
-              </div>
-            </div>
-            <LessonControlButtons />
-            </li>
+  const handleCreate = () => {
+    navigate(`/Kanbas/Courses/${cid}/Assignments/new`);
+  };
 
-            <li className="wd-assignment-list-item list-group-item d-flex align-items-center p-3 ps-1">
-            <BsGripVertical className="me-2 fs-3" /> <GiNotebook className="me-2 fs-3" style={{ marginRight: 10, color: 'green' }} />
-            <div className="flex-grow-1">
-              <a href="#/Kanbas/Courses/1234/Assignments/1" className="stretched-link" style={{ color: 'black' }}>
-                  <strong>A3</strong>
-              </a>
-              <div className="small">
-                  <span style={{ color: 'red' }}>Multiple Modules</span> | <strong>Not available until</strong> May 20 at 12:00am
-              </div>
-              <div className="small">
-                  <strong>Due</strong> May 27 at 11:59pm | 100 pts
-              </div>
-            </div>
-            <LessonControlButtons />
-            </li>
-          </ul>
-        </li>
-      </ul>  */}
+  return (
+    <div>
+      {/* Show AssignmentControl only if the user is a faculty */}
+      <AssignmentControl onAddAssignment={handleCreate} />
+
+      <div className="wd-assignments-title p-3 ps-2 bg-secondary d-flex align-items-center" style={{ color: 'black', border: '1px solid black' }}>
+        <BsGripVertical className="me-2 fs-3" /><GoTriangleDown />
+        <strong>ASSIGNMENTS</strong>
       </div>
-  );}
-  
-  
+
+      <ul id="wd-assignments-list" className="list-group rounded-0">
+        {assignments.map((assignment: Assignment) => (
+          <li
+            key={assignment._id}
+            className="wd-assignment-list-item list-group-item d-flex align-items-center p-3"
+            style={{ border: '1px solid black', color: 'black', cursor: 'default' }}
+          >
+            <BsGripVertical className="text-muted me-2 fs-5" />
+            <FaBook style={{ color: 'green', marginRight: 10 }} />
+            <div className="flex-grow-1">
+              <strong>{assignment.title}</strong>
+              <div className="small text-muted">
+                <span style={{ color: 'red' }}>Multiple Modules</span> | <strong>Not available until:</strong> {assignment.not_available_until || "N/A"}
+              </div>
+              <div className="small text-muted">
+                <strong>Due:</strong> {assignment.due || "N/A"} | {assignment.points || 0} pts
+              </div>
+            </div>
+
+            {/* Show AssignmentControlButtons only if the user is a faculty */}
+            {currentUser?.role === "FACULTY" && (
+              <div className="d-flex">
+                <AssignmentControlButtons
+                  assignmentId={assignment._id}
+                  deleteAssignment={handleDelete}
+                  editAssignment={handleEdit}
+                />
+              </div>
+            )}
+            <LessonControlButtons />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
