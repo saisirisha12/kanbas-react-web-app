@@ -9,7 +9,7 @@ import AssignmentControlButtons from "./AssignmentControlButtons";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { deleteAssignment } from "./reducer";
 
-export default function Assignments() {
+export default function Assignments() { 
     const { cid } = useParams<{ cid: string }>();
     const navigate = useNavigate();
     const dispatch = useDispatch();
