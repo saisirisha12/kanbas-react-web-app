@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { assignments } from "../Enrollements/enrollmentFuntions";
-import { Assignment } from "./types";
+
 
 interface AssignmentsState {
     assignments: Assignment[];
@@ -36,11 +36,7 @@ const assignmentsSlice = createSlice({
                 due: payload.due || new Date().toISOString().slice(0, 16),
                 not_available_until: payload.not_available_until || new Date().toISOString().slice(0, 16),
                 available_until: payload.available_until || new Date().toISOString().slice(0, 16),
-                course: payload.course,
-                assignment_group: payload.assignment_group || "ASSIGNMENTS",
-                display_grade_as: payload.display_grade_as || "Percentage",
-                submission_type: payload.submission_type || "Online",
-                online_entry_option: payload.online_entry_option || ["Text Entry"],
+                course: payload.course
             };
             state.assignments.push(newAssignment);
             console.log("New Assignment Added:", newAssignment); // Debugging line
@@ -62,11 +58,7 @@ const assignmentsSlice = createSlice({
             if (index !== -1) {
                 state.assignments[index] = {
                     ...state.assignments[index],
-                    ...updatedAssignment,
-                    assignment_group: updatedAssignment.assignment_group || "ASSIGNMENTS",
-                    display_grade_as: updatedAssignment.display_grade_as || "Percentage",
-                    submission_type: updatedAssignment.submission_type || "Online",
-                    online_entry_option: updatedAssignment.online_entry_option || ["Text Entry"],
+                    ...updatedAssignment
                 };
                 console.log("Assignment Updated:", updatedAssignment);
             }
@@ -76,3 +68,14 @@ const assignmentsSlice = createSlice({
 
 export const { addAssignment, deleteAssignment, updateAssignment } = assignmentsSlice.actions;
 export default assignmentsSlice.reducer;
+
+interface Assignment {
+    _id: string;
+    title: string;
+    description: string;
+    points: number;
+    due: string; 
+    not_available_until: string; 
+    available_until?: string; 
+    course: string;
+  }
