@@ -1,41 +1,37 @@
-// AssignmentControlButtons.tsx
-import React from "react";
-import { BsPencil, BsTrash } from "react-icons/bs";
+import { MdEdit, MdDelete } from "react-icons/md";
 
-interface AssignmentControlButtonsProps {
-  assignmentId: string;
-  deleteAssignment: (id: string) => void;
-  editAssignment: (id: string) => void;
-}
-
-const AssignmentControlButtons: React.FC<AssignmentControlButtonsProps> = ({
+export default function AssignmentControlButtons({
   assignmentId,
   deleteAssignment,
   editAssignment,
-}) => (
-  <div className="float-end d-flex align-items-center">
-    <BsPencil
-      className="fs-4 me-3 text-primary"
-      onClick={(e) => {
-        e.stopPropagation(); // Prevents triggering parent events
-        editAssignment(assignmentId);
-      }}
-      style={{ cursor: "pointer" }}
-      title="Edit Assignment"
-    />
+}: {
+  assignmentId: string;
+  deleteAssignment: (id: string) => void;
+  editAssignment: (id: string) => void;
+}) {
+  return (
+    <div className="action-buttons d-flex align-items-center">
+      <MdEdit
+        className="icon-edit"
+        onClick={(e) => {
+          e.stopPropagation();
+          editAssignment(assignmentId);
+        }}
+        style={{ cursor: "pointer", color: "blue", fontSize: "2rem" }}
+        title="Edit Assignment"
+      />
 
-    <BsTrash
-      className="fs-4 text-danger"
-      onClick={(e) => {
-        e.stopPropagation(); // Prevents triggering parent events
-        if (window.confirm("Are you sure you want to delete this assignment?")) {
-          deleteAssignment(assignmentId);
-        }
-      }}
-      style={{ cursor: "pointer" }}
-      title="Delete Assignment"
-    />
-  </div>
-);
-
-export default AssignmentControlButtons;
+      <MdDelete
+        className="icon-delete"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (window.confirm("Are you sure you want to delete this assignment?")) {
+            deleteAssignment(assignmentId);
+          }
+        }}
+        style={{ cursor: "pointer", color: "red", fontSize: "2rem" }}
+        title="Delete Assignment"
+      />
+    </div>
+  );
+}

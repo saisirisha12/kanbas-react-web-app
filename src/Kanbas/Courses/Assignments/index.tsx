@@ -1,85 +1,98 @@
+// src/Kanbas/Courses/Assignments/index.tsx
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router-dom"; // Updated import path
 import { BsGripVertical } from "react-icons/bs";
-import { FaBook } from "react-icons/fa";
+import { GiNotebook } from "react-icons/gi";
 import AssignmentControl from "./AssignmentControl";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { deleteAssignment } from "./reducer";
-import { Assignment } from "./types";
-import { GoTriangleDown } from "react-icons/go";
-
-interface AppState {
-  assignmentsReducer: { assignments: Assignment[] };
-  accountReducer: { currentUser: { role: string } | null };
-}
 
 export default function Assignments() {
-  const { cid } = useParams<{ cid: string }>();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+    const { cid } = useParams<{ cid: string }>();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-  const assignments = useSelector((state: AppState) =>
-    state.assignmentsReducer.assignments.filter((assignment) => assignment.course === cid)
-  );
-  const currentUser = useSelector((state: AppState) => state.accountReducer.currentUser);
+    const createNewAssignment = () => {
+        navigate(`/Kanbas/Courses/${cid}/Assignments/New`);
+    };
 
-  const handleDelete = (id: string) => {
-    dispatch(deleteAssignment(id));
-  };
+    const editExistingAssignment = (id: string) => {
+        navigate(`/Kanbas/Courses/${cid}/Assignments/${id}`);
+    };
 
-  const handleEdit = (id: string) => {
-    navigate(`/Kanbas/Courses/${cid}/Assignments/${id}`);
-  };
+    const deleteExistingAssignment = (id: string) => {
+        dispatch(deleteAssignment(id));
+    };
 
-  const handleCreate = () => {
-    navigate(`/Kanbas/Courses/${cid}/Assignments/new`);
-  };
+    const assignments = useSelector((state: AppState) =>
+        state.assignmentsReducer.assignments.filter((assignment) => assignment.course === cid)
+    );
 
-  return (
-    <div>
-      {/* Show AssignmentControl only if the user is a faculty */}
-      <AssignmentControl onAddAssignment={handleCreate} />
+    const currentUser = useSelector((state: AppState) => state.accountReducer.currentUser);
 
-      <div className="wd-assignments-title p-3 ps-2 bg-secondary d-flex align-items-center" style={{ color: 'black', border: '1px solid black' }}>
-        <BsGripVertical className="me-2 fs-3" /><GoTriangleDown />
-        <strong>ASSIGNMENTS</strong>
-      </div>
+    return (
+        <div>
+            <AssignmentControl onAddAssignment={createNewAssignment} />
 
-      <ul id="wd-assignments-list" className="list-group rounded-0">
-        {assignments.map((assignment: Assignment) => (
-          <li
-            key={assignment._id}
-            className="wd-assignment-list-item list-group-item d-flex align-items-center p-3"
-            style={{ border: '1px solid black', color: 'black', cursor: 'default' }}
-          >
-            <BsGripVertical className="text-muted me-2 fs-5" />
-            <FaBook style={{ color: 'green', marginRight: 10 }} />
-            <div className="flex-grow-1">
-              <strong>{assignment.title}</strong>
-              <div className="small text-muted">
-                <span style={{ color: 'red' }}>Multiple Modules</span> | <strong>Not available until:</strong> {assignment.not_available_until || "N/A"}
-              </div>
-              <div className="small text-muted">
-                <strong>Due:</strong> {assignment.due || "N/A"} | {assignment.points || 0} pts
-              </div>
+            <ul id="wd-modules" className="list-group rounded-0">
+            <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+
+            <div className="wd-title p-3 ps-2 bg-secondary"> 
+            <BsGripVertical className="me-2 fs-3" /> 
+            Assignments 
             </div>
 
-            {/* Show AssignmentControlButtons only if the user is a faculty */}
-            {currentUser?.role === "FACULTY" && (
-              <div className="d-flex">
-                <AssignmentControlButtons
-                  assignmentId={assignment._id}
-                  deleteAssignment={handleDelete}
-                  editAssignment={handleEdit}
-                />
+            <ul className="wd-assignments-list list-group rounded-0">
+                {assignments
+          .filter((assignment: Assignment) => assignment.course === cid)
+          .map((assignment: Assignment) => (
+                    <li key={assignment._id} className="wd-assignment-list-item list-group-item d-flex align-items-center p-3 ps-1">
+                        <BsGripVertical className="me-2 fs-3" /> 
+                        <GiNotebook className="me-2 fs-3" style={{ marginRight: 10, color: 'green' }} />
+                        <div className="flex-grow-1">
+                            <strong>{assignment.title}</strong>
+                            <div className="small">
+                  <span style={{ color: 'red' }}>Multiple Modules</span> | <strong>Not available until:</strong> {assignment.not_available_until || "N/A"}
               </div>
-            )}
-            <LessonControlButtons />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+                            <div className="small">
+                                <strong>Due:</strong> {assignment.due || "N/A"} | {assignment.points || 0} pts
+                            </div>
+                        </div>
+
+                        {currentUser?.role === "FACULTY" && (
+                            <div className="d-flex">
+                                <AssignmentControlButtons
+                                    assignmentId={assignment._id}
+                                    deleteAssignment={deleteExistingAssignment}
+                                    editAssignment={editExistingAssignment}
+                                />
+                            </div>
+                        )}
+                        <LessonControlButtons />
+                    </li>
+                ))}
+            </ul>
+        </li>
+        </ul>
+        </div>
+    );
+}
+
+interface AppState {
+    accountReducer: { currentUser: { role: string } | null };
+    assignmentsReducer: { assignments: Assignment[] };
+}
+
+
+interface Assignment {
+  _id: string;
+  title: string;
+  description: string;
+  points: number;
+  due: string; 
+  not_available_until: string; 
+  available_until?: string; 
+  course: string;
 }

@@ -1,49 +1,38 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { FaPlus, FaSearch } from "react-icons/fa";
-import { Button, FormControl } from 'react-bootstrap';
 
-interface AssignmentControlProps {
-    onAddAssignment: () => void;
-}
 
-const AssignmentControl: React.FC<AssignmentControlProps> = ({ onAddAssignment }) => {
+export default function AssignmentControl({ onAddAssignment }: { onAddAssignment: () => void }) {
     const currentUser = useSelector((state: any) => state.accountReducer.currentUser);
 
     return (
-        <div className="d-flex justify-content-between align-items-center mb-4">
-            {/* Search Bar */}
-            <div className="d-flex w-50">
-                <div className="position-relative w-100">
-                    <span className="position-absolute top-50 translate-middle-y ms-2" style={{ pointerEvents: 'none' }}>
-                        <FaSearch />
-                    </span>
-                    <FormControl
-                        type="text"
-                        placeholder="Search..."
-                        className="ps-5" // Padding-left for the icon
-                    />
-                </div>
-            </div>
+        <div id="wd-modules-controls" className="d-flex justify-content-between align-items-center mb-3">
+    
+        <div className="input-group" style={{ maxWidth: "300px" }}>
+            <span className="input-group-text">
+              <FaSearch />
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search..."
+              aria-label="Search for Assignments"/>
+          </div>
+          
+        <div className="text-nowrap">
+           <button id="wd-add-assignment-btn" className="btn btn-lg btn-secondary me-1 float-end">
+            <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+            Group</button>
 
-            {/* Group and Assignment Buttons */}
-            <div>
-                <Button style={{ backgroundColor: 'lightgray', color: 'black' }} className="me-2">
-                    <FaPlus /> Group
-                </Button>
-                
-                {/* Show Add Assignment button only if the user is a faculty */}
                 {currentUser?.role === "FACULTY" && (
-                    <Button
-                        style={{ backgroundColor: 'red', color: 'white' }}
-                        onClick={onAddAssignment}
-                    >
-                        <FaPlus /> Assignment
-                    </Button>
-                )}
+
+                <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-1 float-end"  onClick={onAddAssignment}>
+
+                <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+                Assignment</button>
+               )}
+
             </div>
         </div>
-    );
-};
-
-export default AssignmentControl;
+    );}
