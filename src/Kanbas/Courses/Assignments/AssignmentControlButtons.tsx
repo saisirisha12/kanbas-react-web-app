@@ -1,13 +1,37 @@
-import { IoEllipsisVertical } from "react-icons/io5";
-import { BsPlus } from "react-icons/bs";
-export default function AssignmentControlButtons() {
+import { MdEdit, MdDelete } from "react-icons/md";
+
+export default function AssignmentControlButtons({
+  assignmentId,
+  deleteAssignment,
+  editAssignment,
+}: {
+  assignmentId: string;
+  deleteAssignment: (id: string) => void;
+  editAssignment: (id: string) => void;
+}) {
   return (
-    <div className="float-end">
-        <span style={{
-            borderRadius: '1em', border: '1px solid rgba(0, 0, 0, 0.25)',
-            padding: '0.5rem 1rem'
-          }}>40% of Total</span>
-      <BsPlus className="fs-4 me-2" />
-      <IoEllipsisVertical className="fs-4" />
+    <div className="action-buttons d-flex align-items-center">
+      <MdEdit
+        className="icon-edit"
+        onClick={(e) => {
+          e.stopPropagation();
+          editAssignment(assignmentId);
+        }}
+        style={{ cursor: "pointer", color: "blue", fontSize: "2rem" }}
+        title="Edit Assignment"
+      />
+
+      <MdDelete
+        className="icon-delete"
+        onClick={(e) => {
+          e.stopPropagation();
+          if (window.confirm("Are you sure you want to delete this assignment?")) {
+            deleteAssignment(assignmentId);
+          }
+        }}
+        style={{ cursor: "pointer", color: "red", fontSize: "2rem" }}
+        title="Delete Assignment"
+      />
     </div>
-);}
+  );
+}
