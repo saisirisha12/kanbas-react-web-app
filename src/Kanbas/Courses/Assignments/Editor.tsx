@@ -3,6 +3,8 @@ import { FaChevronDown, FaTimes, FaCalendarAlt } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom"; 
 import { useDispatch, useSelector } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 
 export default function AssignmentEditor() {
@@ -26,11 +28,34 @@ export default function AssignmentEditor() {
         course: cid || "",
     });
 
+    const createAssignmentForCourse = async () => {
+        if (!cid) return;
+        const newAssignment = {
+            title: assignment.title,
+            description: assignment.description,
+            points: assignment.points,
+            due: assignment.due,
+            not_available_until: assignment.not_available_until,
+            available_until: assignment.available_until,
+            course: cid,  // Ensure the course ID is included
+          };
+        const createdAssignment = await coursesClient.createAssignmentForCourse(cid, newAssignment);
+        dispatch(addAssignment(createdAssignment));
+      };
+
+      const saveEditedAssignment = async (assignment: any) => {
+        await assignmentsClient.updateAssignment(assignment);
+        dispatch(updateAssignment(assignment));
+      };
+    
+
     const saveAssignment = () => {
         if (!isNewAssignment && existingAssignment) {
-            dispatch(updateAssignment(assignment as Assignment));
+            // dispatch(updateAssignment(assignment as Assignment));
+            saveEditedAssignment(assignment);
         } else {
-            dispatch(addAssignment({ ...assignment, course: cid }));
+            // dispatch(addAssignment({ ...assignment, course: cid }));
+            createAssignmentForCourse();
         }
         navigate(`/Kanbas/Courses/${cid}/Assignments`);
     };
