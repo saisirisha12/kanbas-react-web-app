@@ -8,7 +8,8 @@ interface AssignmentsState {
 }
 
 const initialState: AssignmentsState = {
-    assignments: assignments,
+    // assignments: assignments,
+    assignments: [],
 };
 
 
@@ -22,6 +23,10 @@ const assignmentsSlice = createSlice({
     name: "assignments",
     initialState,
     reducers: {
+        setAssignments: (state, action) => {
+            state.assignments = action.payload;
+          },
+      
         addAssignment: (state, action: PayloadAction<Partial<Assignment>>) => {
             const payload = action.payload;
             if (!payload.course) {
@@ -66,7 +71,7 @@ const assignmentsSlice = createSlice({
     },
 });
 
-export const { addAssignment, deleteAssignment, updateAssignment } = assignmentsSlice.actions;
+export const { addAssignment, deleteAssignment, updateAssignment, setAssignments } = assignmentsSlice.actions;
 export default assignmentsSlice.reducer;
 
 interface Assignment {

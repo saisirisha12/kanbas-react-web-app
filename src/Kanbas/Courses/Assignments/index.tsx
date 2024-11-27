@@ -7,12 +7,30 @@ import { GiNotebook } from "react-icons/gi";
 import AssignmentControl from "./AssignmentControl";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import LessonControlButtons from "../Modules/LessonControlButtons";
-import { deleteAssignment } from "./reducer";
+import { useState, useEffect } from "react";
+import { deleteAssignment, setAssignments  } from "./reducer";
+import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function Assignments() { 
     const { cid } = useParams<{ cid: string }>();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const fetchAssignments = async () => {
+        const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(assignments));
+      };
+
+      const removeAssignment = async (assignmentId: string) => {
+        await assignmentsClient.deleteAssignment(assignmentId);
+        dispatch(deleteAssignment(assignmentId));
+      };
+    
+      useEffect(() => {
+        fetchAssignments();
+      }, []);
+    
 
     const createNewAssignment = () => {
         navigate(`/Kanbas/Courses/${cid}/Assignments/New`);
@@ -23,7 +41,8 @@ export default function Assignments() {
     };
 
     const deleteExistingAssignment = (id: string) => {
-        dispatch(deleteAssignment(id));
+        // dispatch(deleteAssignment(id));
+        removeAssignment(id);
     };
 
     const assignments = useSelector((state: AppState) =>
@@ -46,7 +65,7 @@ export default function Assignments() {
 
             <ul className="wd-assignments-list list-group rounded-0">
                 {assignments
-          .filter((assignment: Assignment) => assignment.course === cid)
+        //   .filter((assignment: Assignment) => assignment.course === cid)
           .map((assignment: Assignment) => (
                     <li key={assignment._id} className="wd-assignment-list-item list-group-item d-flex align-items-center p-3 ps-1">
                         <BsGripVertical className="me-2 fs-3" /> 
