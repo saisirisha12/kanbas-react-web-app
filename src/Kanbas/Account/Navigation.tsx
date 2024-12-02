@@ -4,11 +4,16 @@ import { useSelector } from "react-redux";
 export default function AccountNavigation() {
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
+  const active = (path: string) => (pathname.includes(path) ? "active" : "text-danger");
   const { pathname } = useLocation();
   return (
     <div id="wd-account-navigation" className="wd list-group fs-5 rounded-0">
-      <Link id="wd-account-signin-link" to={`/Kanbas/Account/Signin`} className={`list-group-item border border-0 ${pathname.includes("Signin") ? "active" : "text-danger"}`}>Signin</Link>
-      <Link id="wd-account-signup-link" to={`/Kanbas/Account/Signup`} className={`list-group-item border border-0 ${pathname.includes("Signup") ? "active" : "text-danger"}`}>Signup</Link>
-      <Link id="wd-account-profile-link" to={`/Kanbas/Account/Profile`} className={`list-group-item border border-0 ${pathname.includes("Profile") ? "active" : "text-danger"}`}>Profile</Link>
+      {links.map((link) => (
+       <Link key={link} to={`/Kanbas/Account/${link}`} className={`list-group-item border border-0 ${active(link)}`}> 
+       {link} </Link>
+     ))}
+
+      {currentUser && currentUser.role === "ADMIN" && (
+       <Link to={`/Kanbas/Account/Users`} className={`list-group-item border border-0 ${active("Users")}`}> Users </Link> )}
     </div>
 );}
