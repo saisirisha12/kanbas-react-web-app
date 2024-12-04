@@ -7,7 +7,7 @@ export const findMyCourses = async () => {
     return data;
   };
   export const createCourse = async (course: any) => {
-    const { data } = await axios.post(`${USERS_API}/current/courses`, course);
+    const { data } = await axiosWithCredentials.post(`${USERS_API}/current/courses`, course);
     return data;
   };
   
@@ -67,7 +67,7 @@ export const signout = async () => {
 
   export const findCoursesForUser = async (userId: string) => {
     console.log("UserID:" + userId);
-    const response = await axios.get(`${USERS_API}/${userId}/courses`);
+    const response = await axiosWithCredentials.get(`${USERS_API}/${userId}/courses`);
     return response.data;
   };
 
